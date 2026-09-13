@@ -181,9 +181,31 @@
 <section id="books" class="container">
 
     <h2 class="section-title">📖 Featured Books</h2>
+    <div class="mb-4">
+    <input type="text"
+           id="searchInput"
+           class="form-control"
+           placeholder="🔍 Search books by name or author...">
+           <div class="mb-4">
+    <select id="categoryFilter" class="form-select">
+        <option value="">🏷️ All Categories</option>
+        <option value="Programming">Programming</option>
+        <option value="Database">Database</option>
+        <option value="Web Development">Web Development</option>
+        <option value="Artificial Intelligence">Artificial Intelligence</option>
+        <option value="Fiction">Fiction</option>
+    </select>
+</div>
+</div>
+<div class="mb-4">
+    <select id="priceSort" class="form-select">
+        <option value="">💰 Sort by Price</option>
+        <option value="low">Low to High</option>
+        <option value="high">High to Low</option>
+    </select>
+</div>
 
-    <div class="row g-4">
-
+    <div class="row g-4" id="bookList">
         <!-- Book 1 -->
         <div class="col-md-4">
 
@@ -205,9 +227,17 @@
 
                     <p class="price mt-3">₹399</p>
 
-                    <button class="btn btn-primary">
-                        View Details
-                    </button>
+                   <button class="btn btn-primary"
+        onclick="showDetails({
+            bookName: 'The Great Adventure',
+            authorName: 'John Smith',
+            isbn: 'Not Available',
+            price: 399,
+            description: 'An exciting fiction adventure story.',
+            availability: 'Available'
+        })">
+    View Details
+</button>
 
                 </div>
             </div>
@@ -236,10 +266,17 @@
 
                     <p class="price mt-3">₹499</p>
 
-                    <button class="btn btn-primary">
-                        View Details
-                    </button>
-
+                    <button class="btn btn-primary"
+        onclick="showDetails({
+            bookName: 'Learn Programming',
+            authorName: 'Robert Martin',
+            isbn: 'Not Available',
+            price: 499,
+            description: 'A useful book for learning programming concepts.',
+            availability: 'Available'
+        })">
+    View Details
+</button>
                 </div>
             </div>
 
@@ -267,10 +304,17 @@
 
                     <p class="price mt-3">₹450</p>
 
-                    <button class="btn btn-primary">
-                        View Details
-                    </button>
-
+                    <button class="btn btn-primary"
+        onclick="showDetails({
+            bookName: 'Database Fundamentals',
+            authorName: 'James Brown',
+            isbn: 'Not Available',
+            price: 450,
+            description: 'A book covering the fundamentals of databases and DBMS.',
+            availability: 'Available'
+        })">
+    View Details
+</button>
                 </div>
             </div>
 
@@ -298,9 +342,17 @@
 
                     <p class="price mt-3">₹550</p>
 
-                    <button class="btn btn-primary">
-                        View Details
-                    </button>
+                    <button class="btn btn-primary"
+        onclick="showDetails({
+            bookName: 'Web Development',
+            authorName: 'David Miller',
+            isbn: 'Not Available',
+            price: 550,
+            description: 'A practical book for learning modern web development.',
+            availability: 'Available'
+        })">
+    View Details
+</button>
 
                 </div>
             </div>
@@ -329,9 +381,18 @@
 
                     <p class="price mt-3">₹650</p>
 
-                    <button class="btn btn-primary">
-                        View Details
-                    </button>
+                    <button class="btn btn-primary"
+        onclick="showDetails({
+            bookName: 'Artificial Intelligence',
+            authorName: 'Andrew Ng',
+            isbn: 'Not Available',
+            price: 650,
+            description: 'An introductory book about Artificial Intelligence and its applications.',
+            availability: 'Available'
+        })">
+    View Details
+</button>
+
 
                 </div>
             </div>
@@ -360,13 +421,58 @@
 
                     <p class="price mt-3">₹350</p>
 
-                    <button class="btn btn-primary">
-                        View Details
-                    </button>
-
+                   <button class="btn btn-primary"
+        onclick="showDetails({
+            bookName: 'Mystery Stories',
+            authorName: 'Emily Stone',
+            isbn: 'Not Available',
+            price: 350,
+            description: 'An interesting collection of mystery and fiction stories.',
+            availability: 'Available'
+        })">
+    View Details
+</button>
                 </div>
             </div>
 
+        </div>
+
+    </div>
+
+</section>
+<!-- Book Statistics -->
+<section class="container my-5">
+
+    <h2 class="section-title">📊 Book Statistics</h2>
+
+    <div class="row g-4 text-center">
+
+        <div class="col-md-3">
+            <div class="card book-card p-3">
+                <h3 id="totalBooks">0</h3>
+                <p class="mb-0">📚 Total Books</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card book-card p-3">
+                <h3 id="availableBooks">0</h3>
+                <p class="mb-0">✅ Available Books</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card book-card p-3">
+                <h3 id="categoryCount">0</h3>
+                <p class="mb-0">🏷️ Categories</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card book-card p-3">
+                <h3 id="averagePrice">₹0</h3>
+                <p class="mb-0">💰 Average Price</p>
+            </div>
         </div>
 
     </div>
@@ -439,7 +545,7 @@
         📝 Book Registration Form
     </h2>
 
-    <form>
+    <form id="bookForm">
 
         <div class="row">
 
@@ -451,9 +557,10 @@
                 </label>
 
                 <input type="text"
-                       class="form-control"
-                       placeholder="Enter book name"
-                       required>
+       name="bookName"
+       class="form-control"
+       placeholder="Enter book name"
+       required>
 
             </div>
 
@@ -464,12 +571,11 @@
                 <label class="form-label">
                     Author Name
                 </label>
-
-                <input type="text"
-                       class="form-control"
-                       placeholder="Enter author name"
-                       required>
-
+<input type="text"
+       name="authorName"
+       class="form-control"
+       placeholder="Enter author name"
+       required>
             </div>
 
 
@@ -481,9 +587,10 @@
                 </label>
 
                 <input type="text"
-                       class="form-control"
-                       placeholder="Enter ISBN"
-                       required>
+       name="isbn"
+       class="form-control"
+       placeholder="Enter ISBN"
+       required>
 
             </div>
 
@@ -495,7 +602,7 @@
                     Category
                 </label>
 
-                <select class="form-select">
+                <select name="category" class="form-select" required>
 
                     <option selected>Select Category</option>
 
@@ -517,11 +624,11 @@
                     Price
                 </label>
 
-                <input type="number"
-                       class="form-control"
-                       placeholder="Enter price"
-                       required>
-
+<input type="number"
+       name="price"
+       class="form-control"
+       placeholder="Enter price"
+       required>
             </div>
 
 
@@ -532,8 +639,7 @@
                     Availability
                 </label>
 
-                <select class="form-select">
-
+                <select name="availability" class="form-select">
                     <option>Available</option>
                     <option>Not Available</option>
 
@@ -549,9 +655,10 @@
                     Book Description
                 </label>
 
-                <textarea class="form-control"
-                          rows="4"
-                          placeholder="Enter book description"></textarea>
+                <textarea name="description"
+          class="form-control"
+          rows="4"
+          placeholder="Enter book description"></textarea>
 
             </div>
 
@@ -601,5 +708,570 @@
 <!-- Bootstrap JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+<div class="modal fade" id="bookDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">📖 Book Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <p><strong>Book:</strong> <span id="detailBookName"></span></p>
+                <p><strong>Author:</strong> <span id="detailAuthor"></span></p>
+                <p><strong>ISBN:</strong> <span id="detailIsbn"></span></p>
+                <p><strong>Price:</strong> ₹<span id="detailPrice"></span></p>
+                <p><strong>Description:</strong> <span id="detailDescription"></span></p>
+                <p><strong>Availability:</strong> <span id="detailAvailability"></span></p>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Edit Book Modal -->
+<div class="modal fade" id="editBookModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">✏️ Edit Book</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <input type="hidden" id="editBookId">
+
+                <div class="mb-3">
+                    <label class="form-label">Book Name</label>
+                    <input type="text" id="editBookName" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Author Name</label>
+                    <input type="text" id="editAuthorName" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">ISBN</label>
+                    <input type="text" id="editIsbn" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <select id="editCategory" class="form-select">
+                        <option>Programming</option>
+                        <option>Database</option>
+                        <option>Web Development</option>
+                        <option>Artificial Intelligence</option>
+                        <option>Fiction</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Price</label>
+                    <input type="number" id="editPrice" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea id="editDescription" class="form-control"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Availability</label>
+                    <select id="editAvailability" class="form-select">
+                        <option>Available</option>
+                        <option>Not Available</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn btn-success w-100"
+                        onclick="updateBook()">
+                    💾 Save Changes
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
 </body>
+<script>
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const API_URL = "https://book-explorer-mjvc.onrender.com/api/books";
+
+    /* ================= REGISTER BOOK ================= */
+
+    document.getElementById("bookForm").addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const formData = new FormData(this);
+
+        const book = {
+            bookName: formData.get("bookName"),
+            authorName: formData.get("authorName"),
+            isbn: formData.get("isbn"),
+            category: formData.get("category"),
+            price: Number(formData.get("price")),
+            description: formData.get("description"),
+            availability: formData.get("availability")
+        };
+
+        fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(book)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Registration failed");
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert("Book registered successfully! ✅");
+            this.reset();
+            loadBooks();
+        })
+        .catch(error => {
+            console.error(error);
+            alert("Something went wrong ❌");
+        });
+
+    });
+
+
+    /* ================= LOAD BOOKS ================= */
+
+    function loadBooks() {
+
+        fetch(API_URL)
+            .then(response => response.json())
+            .then(books => {
+
+                const favourites = JSON.parse(
+                    localStorage.getItem("favourites") || "[]"
+                );
+
+                /* Statistics */
+
+                const total = books.length;
+
+                const available = books.filter(
+                    book => book.availability === "Available"
+                ).length;
+
+                const categories = new Set(
+                    books.map(book => book.category)
+                ).size;
+
+                const average = total > 0
+                    ? books.reduce((sum, book) => sum + book.price, 0) / total
+                    : 0;
+
+                document.getElementById("totalBooks").innerText = total;
+
+                document.getElementById("availableBooks").innerText =
+                    available;
+
+                document.getElementById("categoryCount").innerText =
+                    categories;
+
+                document.getElementById("averagePrice").innerText =
+                    "₹" + average.toFixed(2);
+
+
+                /* Add database books */
+
+                const bookList = document.getElementById("bookList");
+
+                books.forEach(book => {
+
+                    bookList.innerHTML += `
+                        <div class="col-md-4 database-book">
+
+                            <div class="card book-card">
+
+                                <div class="card-body">
+
+                                    <h5 class="book-title">
+                                        ${book.bookName}
+                                    </h5>
+
+                                    <p>
+                                        <strong>Author:</strong>
+                                        ${book.authorName}
+                                    </p>
+
+                                    <span class="badge bg-info text-dark">
+                                        ${book.category}
+                                    </span>
+
+                                    <p class="price mt-3">
+                                        ₹${book.price}
+                                    </p>
+
+                                    <p>
+                                        ${book.description}
+                                    </p>
+
+                                    <span class="badge bg-success">
+                                        ${book.availability}
+                                    </span>
+
+                                    <br><br>
+
+                                    <button class="btn btn-primary"
+                                            onclick='showDetails(${JSON.stringify(book)})'>
+                                        View Details
+                                    </button>
+
+                                    <button class="btn btn-warning ms-2"
+                                            onclick='editBook(${JSON.stringify(book)})'>
+                                        ✏️ Edit
+                                    </button>
+
+                                    <button class="btn btn-danger ms-2"
+                                            onclick="deleteBook(${book.id})">
+                                        🗑️ Delete
+                                    </button>
+
+                                    <button class="btn btn-outline-danger ms-2"
+                                            onclick="toggleFavourite(${book.id}, this)">
+                                        ${favourites.includes(book.id)
+                                            ? "💖 Favourited"
+                                            : "❤️ Favourite"}
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    `;
+
+                });
+
+            })
+            .catch(error => {
+                console.error("Error loading books:", error);
+            });
+
+    }
+
+
+    /* Load books when page opens */
+
+    loadBooks();
+
+
+    /* ================= SEARCH ================= */
+
+    document.getElementById("searchInput").addEventListener("input", function () {
+
+        const searchText = this.value.toLowerCase();
+
+        document.querySelectorAll("#bookList .col-md-4").forEach(card => {
+
+            const bookText = card.innerText.toLowerCase();
+
+            card.style.display =
+                bookText.includes(searchText) ? "" : "none";
+
+        });
+
+    });
+
+
+    /* ================= CATEGORY FILTER ================= */
+
+    document.getElementById("categoryFilter").addEventListener("change", function () {
+
+        const selectedCategory = this.value;
+
+        document.querySelectorAll("#bookList .col-md-4").forEach(card => {
+
+            const badges = card.querySelectorAll(".badge");
+
+            let categoryFound = false;
+
+            badges.forEach(badge => {
+
+                if (badge.innerText.trim() === selectedCategory) {
+                    categoryFound = true;
+                }
+
+            });
+
+            card.style.display =
+                !selectedCategory || categoryFound ? "" : "none";
+
+        });
+
+    });
+
+
+    /* ================= PRICE SORT ================= */
+
+    document.getElementById("priceSort").addEventListener("change", function () {
+
+        const sortValue = this.value;
+
+        const bookList = document.getElementById("bookList");
+
+        const cards = Array.from(
+            bookList.querySelectorAll(".col-md-4")
+        );
+
+        cards.sort((a, b) => {
+
+            const priceA = parseFloat(
+                a.querySelector(".price").innerText
+                    .replace("₹", "")
+                    .replace(",", "")
+            );
+
+            const priceB = parseFloat(
+                b.querySelector(".price").innerText
+                    .replace("₹", "")
+                    .replace(",", "")
+            );
+
+            if (sortValue === "low") {
+                return priceA - priceB;
+            }
+
+            if (sortValue === "high") {
+                return priceB - priceA;
+            }
+
+            return 0;
+
+        });
+
+        cards.forEach(card => {
+            bookList.appendChild(card);
+        });
+
+    });
+
+});
+
+
+/* ================= VIEW DETAILS ================= */
+
+function showDetails(book) {
+
+    document.getElementById("detailBookName").innerText =
+        book.bookName;
+
+    document.getElementById("detailAuthor").innerText =
+        book.authorName;
+
+    document.getElementById("detailIsbn").innerText =
+        book.isbn;
+
+    document.getElementById("detailPrice").innerText =
+        book.price;
+
+    document.getElementById("detailDescription").innerText =
+        book.description;
+
+    document.getElementById("detailAvailability").innerText =
+        book.availability;
+
+    const modal = new bootstrap.Modal(
+        document.getElementById("bookDetailsModal")
+    );
+
+    modal.show();
+}
+
+
+/* ================= EDIT BOOK ================= */
+
+function editBook(book) {
+
+    document.getElementById("editBookId").value =
+        book.id;
+
+    document.getElementById("editBookName").value =
+        book.bookName;
+
+    document.getElementById("editAuthorName").value =
+        book.authorName;
+
+    document.getElementById("editIsbn").value =
+        book.isbn;
+
+    document.getElementById("editCategory").value =
+        book.category;
+
+    document.getElementById("editPrice").value =
+        book.price;
+
+    document.getElementById("editDescription").value =
+        book.description;
+
+    document.getElementById("editAvailability").value =
+        book.availability;
+
+    const modal = new bootstrap.Modal(
+        document.getElementById("editBookModal")
+    );
+
+    modal.show();
+}
+
+
+/* ================= UPDATE BOOK ================= */
+
+function updateBook() {
+
+    const id =
+        document.getElementById("editBookId").value;
+
+    const updatedBook = {
+
+        bookName:
+            document.getElementById("editBookName").value,
+
+        authorName:
+            document.getElementById("editAuthorName").value,
+
+        isbn:
+            document.getElementById("editIsbn").value,
+
+        category:
+            document.getElementById("editCategory").value,
+
+        price:
+            Number(document.getElementById("editPrice").value),
+
+        description:
+            document.getElementById("editDescription").value,
+
+        availability:
+            document.getElementById("editAvailability").value
+    };
+
+
+    fetch(API_URL + "/" + id, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(updatedBook)
+    })
+
+    .then(response => {
+
+        if (!response.ok) {
+            throw new Error("Update failed");
+        }
+
+        return response.json();
+
+    })
+
+    .then(data => {
+
+        alert("Book updated successfully! ✅");
+
+        location.reload();
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+        alert("Update failed ❌");
+
+    });
+
+}
+
+
+/* ================= DELETE BOOK ================= */
+
+function deleteBook(id) {
+
+    const confirmDelete =
+        confirm("Are you sure you want to delete this book?");
+
+    if (!confirmDelete) {
+        return;
+    }
+
+
+    fetch("https://book-explorer-mjvc.onrender.com/api/books/" + id, {
+        method: "DELETE"
+    })
+
+    .then(response => {
+
+        if (!response.ok) {
+            throw new Error("Delete failed");
+        }
+
+        alert("Book deleted successfully! ✅");
+
+        location.reload();
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+        alert("Something went wrong ❌");
+
+    });
+
+}
+
+
+/* ================= FAVOURITE ================= */
+
+function toggleFavourite(id, button) {
+
+    let favourites = JSON.parse(
+        localStorage.getItem("favourites") || "[]"
+    );
+
+
+    if (favourites.includes(id)) {
+
+        favourites = favourites.filter(
+            bookId => bookId !== id
+        );
+
+        button.innerText = "❤️ Favourite";
+
+    } else {
+
+        favourites.push(id);
+
+        button.innerText = "💖 Favourited";
+
+    }
+
+
+    localStorage.setItem(
+        "favourites",
+        JSON.stringify(favourites)
+    );
+
+        
+}
+</script>
 </html>
