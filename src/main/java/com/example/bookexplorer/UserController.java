@@ -36,4 +36,9 @@ public class UserController {
 
         return null;
     }
+
+    @GetMapping
+    public java.util.List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 }
