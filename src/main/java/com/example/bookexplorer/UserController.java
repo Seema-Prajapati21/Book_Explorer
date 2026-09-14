@@ -12,14 +12,21 @@ public class UserController {
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+@PostMapping("/register")
+public User register(@RequestBody User user) {
 
-    @PostMapping("/register")
-    public User register(@RequestBody User user) {
-
-        user.setRole("USER");
-
-        return userRepository.save(user);
+    if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+        throw new RuntimeException("Username already registered");
     }
+
+    if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+        throw new RuntimeException("Email already registered");
+    }
+
+    user.setRole("USER");
+
+    return userRepository.save(user);
+}
 
     @PostMapping("/login")
     public User login(@RequestBody User user) {
