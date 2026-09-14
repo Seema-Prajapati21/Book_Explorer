@@ -917,8 +917,9 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error("Registration failed");
-            }
+    const message = await response.text();
+    throw new Error(message || "Registration failed");
+}
             return response.json();
         })
         .then(data => {
@@ -1418,10 +1419,11 @@ function registerUser() {
         },
         body: JSON.stringify(user)
     })
-    .then(response => {
+    .then(async response => {
 
         if (!response.ok) {
-            throw new Error("Registration failed");
+            const message = await response.text();
+            throw new Error(message || "Registration failed");
         }
 
         return response.json();
@@ -1447,7 +1449,7 @@ function registerUser() {
     .catch(error => {
 
         console.error(error);
-        alert("Registration failed ❌");
+        alert(error.message || "Registration failed ❌");
 
     });
 }
@@ -1489,9 +1491,18 @@ function loginUser() {
     .then(data => {
 
         if (data) {
+
+            localStorage.setItem(
+                "loggedInUser",
+                JSON.stringify(data)
+            );
+
             alert("Login successful! ✅");
+
         } else {
+
             alert("Invalid username or password ❌");
+
         }
 
     })
