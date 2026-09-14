@@ -151,6 +151,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#about">About</a>
                 </li>
+                <li class="nav-item">
+    <a class="nav-link" href="#" onclick="showLogin()">🔐 Login</a>
+</li>
 
             </ul>
 
@@ -797,6 +800,88 @@
         </div>
     </div>
 </div>
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">🔐 User Login</h5>
+                <button type="button" class="btn-close"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <input type="text"
+                       id="loginUsername"
+                       class="form-control mb-3"
+                       placeholder="Username">
+
+                <input type="password"
+                       id="loginPassword"
+                       class="form-control mb-3"
+                       placeholder="Password">
+
+                <button type="button"
+                        class="btn btn-primary w-100"
+                        onclick="loginUser()">
+                    Login
+                </button>
+
+                <hr>
+
+                <p class="text-center mb-0">
+                    Don't have an account?
+                    <a href="#" onclick="showRegister()">
+                        Register
+                    </a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Register Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">📝 Create Account</h5>
+                <button type="button" class="btn-close"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <input type="text"
+                       id="registerUsername"
+                       class="form-control mb-3"
+                       placeholder="Username">
+
+                <input type="email"
+                       id="registerEmail"
+                       class="form-control mb-3"
+                       placeholder="Email">
+
+                <input type="password"
+                       id="registerPassword"
+                       class="form-control mb-3"
+                       placeholder="Password">
+
+                <button type="button"
+                        class="btn btn-success w-100"
+                        onclick="registerUser()">
+                    Register
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 <script>
 
@@ -1132,6 +1217,7 @@ function editBook(book) {
 }
 
 
+
 /* ================= UPDATE BOOK ================= */
 
 function updateBook() {
@@ -1272,6 +1358,98 @@ function toggleFavourite(id, button) {
     );
 
         
+}
+function showLogin() {
+
+    const modal = new bootstrap.Modal(
+        document.getElementById("loginModal")
+    );
+
+    modal.show();
+}
+
+
+function showRegister() {
+
+    const loginModalElement =
+        document.getElementById("loginModal");
+
+    const loginModal =
+        bootstrap.Modal.getInstance(loginModalElement);
+
+    if (loginModal) {
+        loginModal.hide();
+    }
+
+    const registerModal = new bootstrap.Modal(
+        document.getElementById("registerModal")
+    );
+
+    registerModal.show();
+}
+
+
+function registerUser() {
+
+    const username =
+        document.getElementById("registerUsername").value;
+
+    const email =
+        document.getElementById("registerEmail").value;
+
+    const password =
+        document.getElementById("registerPassword").value;
+
+    if (!username || !email || !password) {
+        alert("Please fill all fields.");
+        return;
+    }
+
+    const user = {
+        username: username,
+        email: email,
+        password: password
+    };
+
+    fetch("https://book-explorer-mjvc.onrender.com/api/users/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(user)
+    })
+    .then(response => {
+
+        if (!response.ok) {
+            throw new Error("Registration failed");
+        }
+
+        return response.json();
+    })
+    .then(data => {
+
+        alert("Account created successfully! ✅");
+
+        document.getElementById("registerUsername").value = "";
+        document.getElementById("registerEmail").value = "";
+        document.getElementById("registerPassword").value = "";
+
+        const registerModalElement =
+            document.getElementById("registerModal");
+
+        const registerModal =
+            bootstrap.Modal.getInstance(registerModalElement);
+
+        if (registerModal) {
+            registerModal.hide();
+        }
+    })
+    .catch(error => {
+
+        console.error(error);
+        alert("Registration failed ❌");
+
+    });
 }
 </script>
 </html>
