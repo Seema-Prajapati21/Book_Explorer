@@ -1,4 +1,5 @@
 package com.example.bookexplorer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +19,8 @@ public class User {
 private String username;
    @Column(unique = true)
 private String email;
-    private String password;
+    @JsonIgnore
+private String password;
     private String role;
 
     public User() {
