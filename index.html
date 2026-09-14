@@ -915,13 +915,13 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             body: JSON.stringify(book)
         })
-        .then(response => {
-            if (!response.ok) {
-    const message = await response.text();
-    throw new Error(message || "Registration failed");
-}
-            return response.json();
-        })
+        .then(async response => {
+    if (!response.ok) {
+        const message = await response.text();
+        throw new Error(message || "Registration failed");
+    }
+    return response.json();
+})
         .then(data => {
             alert("Book registered successfully! ✅");
             this.reset();
@@ -1361,6 +1361,13 @@ function toggleFavourite(id, button) {
         
 }
 function showLogin() {
+    function showLogin() {
+    const loginModalElement = document.getElementById("loginModal");
+
+    const loginModal = new bootstrap.Modal(loginModalElement);
+
+    loginModal.show();
+}
 
     const modal = new bootstrap.Modal(
         document.getElementById("loginModal")
@@ -1420,11 +1427,10 @@ function registerUser() {
         body: JSON.stringify(user)
     })
     .then(async response => {
-
-        if (!response.ok) {
-            const message = await response.text();
-            throw new Error(message || "Registration failed");
-        }
+    if (!response.ok) {
+        const message = await response.text();
+        throw new Error(message || "Registration failed");
+    }
 
         return response.json();
     })
