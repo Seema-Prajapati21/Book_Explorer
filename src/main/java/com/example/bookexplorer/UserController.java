@@ -43,7 +43,7 @@ public class UserController {
         User existingUser = userRepository
                 .findByUsername(user.getUsername())
                 .orElse(null);
-
+System.out.println("LOGIN USER FOUND: " + (existingUser != null));
         if (existingUser != null &&
             existingUser.getPassword().equals(user.getPassword())) {
 
