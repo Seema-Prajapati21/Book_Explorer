@@ -1486,14 +1486,16 @@ function loginUser() {
         },
         body: JSON.stringify(user)
     })
-    .then(response => {
+    .then(async response => {
 
-        if (!response.ok) {
-            throw new Error("Login failed");
-        }
+    const text = await response.text();
 
-        return response.json();
-    })
+    if (!response.ok) {
+        throw new Error(text || "Login failed");
+    }
+
+    return text ? JSON.parse(text) : null;
+})
     .then(data => {
 
         if (data) {
